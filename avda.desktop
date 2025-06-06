@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Avda
+Comment=Avda
+Exec=avda
+Terminal=false
+Type=Application
+Icon=avda
+Categories=Internet;PluriOS;
+

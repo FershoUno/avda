@@ -1,0 +1,32 @@
+#!/bin/bash
+
+USERNAME="SAmmy-T"
+REPOSITORY="avda"
+GIT="$USERNAME/$REPOSITORY"
+
+REPO_GIT=$(curl -s https://api.github.com/repos/$GIT/releases/latest)
+URL=$(echo $REPO_GIT | jq -r '.assets[] | select(.name | endswith(".zip") and contains("linux")) | .browser_download_url')
+VERSION=$(echo $REPO_GIT |  jq -r '.tag_name' | sed 's/v//g')
+DIR_PACKAGE="${REPOSITORY}_${VERSION}_all"
+
+rm -rf *.deb *.zip avda_*_all/
+
+wget -q --show-progress $URL
+mkdir -p $DIR_PACKAGE/{DEBIAN,usr/bin,usr/share/applications,usr/share/icons/hicolor/scalable/apps/}
+
+unzip -j $(basename $URL) -d $DIR_PACKAGE/usr/bin/
+AVDA_PATH=$(find $DIR_PACKAGE/ -type f -exec file {} \; | grep ELF | cut -d: -f1)
+
+chmod +x $AVDA_PATH
+
+cp avda.desktop $DIR_PACKAGE/usr/share/applications/
+cp avda.svg $DIR_PACKAGE/usr/share/icons/hicolor/scalable/apps/
+cp control $DIR_PACKAGE/DEBIAN/
+
+AVDA_SIZE=$(du -ks $DIR_PACKAGE/ | awk '{print $1}')
+
+sed -i "s/CHANGE_VERSION/$VERSION/g" $DIR_PACKAGE/DEBIAN/control
+sed -i "s/CHANGE_SIZE/$AVDA_SIZE/g" $DIR_PACKAGE/DEBIAN/control
+
+
+dpkg-deb --build $DIR_PACKAGE/

@@ -1,0 +1,12 @@
+Section: misc
+Priority: optional
+Homepage: https://github.com/Sammy-T/avda
+Package: avda
+Version: CHANGE_VERSION
+Maintainer: Sammy-T
+Architecture: amd64
+Installed-Size: CHANGE_SIZE
+Copyright: GPL-3.0
+Description: A desktop app for generating 
+ and viewing one-time passwords from Aegis 
+ Authenticator backups.
