@@ -1,10 +1,10 @@
 Section: misc
 Priority: optional
-Homepage: https://github.com/Sammy-T/avda
-Package: avda
+Homepage: https://github.com/FershoUno/avda
+Package: CHANGE_NAME
 Version: CHANGE_VERSION
-Maintainer: Sammy-T
-Architecture: amd64
+Maintainer: Fersho Uno <fersh0un0@gmail.com>
+Architecture: CHANGE_ARCH
 Installed-Size: CHANGE_SIZE
 Copyright: GPL-3.0
 Description: A desktop app for generating 

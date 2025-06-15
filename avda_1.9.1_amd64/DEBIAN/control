@@ -1,0 +1,12 @@
+Section: misc
+Priority: optional
+Homepage: https://github.com/FershoUno/avda
+Package: avda
+Version: 1.9.1
+Maintainer: Fersho Uno <fersh0un0@gmail.com>
+Architecture: amd64
+Installed-Size: 8616
+Copyright: GPL-3.0
+Description: A desktop app for generating 
+ and viewing one-time passwords from Aegis 
+ Authenticator backups.

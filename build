@@ -1,15 +1,17 @@
 #!/bin/bash
 
-USERNAME="SAmmy-T"
+USERNAME="Sammy-T"
 REPOSITORY="avda"
+ARCH="amd64"
 GIT="$USERNAME/$REPOSITORY"
+NAME="avda"
 
 REPO_GIT=$(curl -s https://api.github.com/repos/$GIT/releases/latest)
 URL=$(echo $REPO_GIT | jq -r '.assets[] | select(.name | endswith(".zip") and contains("linux")) | .browser_download_url')
 VERSION=$(echo $REPO_GIT |  jq -r '.tag_name' | sed 's/v//g')
-DIR_PACKAGE="${REPOSITORY}_${VERSION}_all"
+DIR_PACKAGE="${REPOSITORY}_${VERSION}_${ARCH}"
 
-rm -rf *.deb *.zip avda_*_all/
+rm -rf *.deb *.zip avda_*_all/ ${NAME}_*
 
 wget -q --show-progress $URL
 mkdir -p $DIR_PACKAGE/{DEBIAN,usr/bin,usr/share/applications,usr/share/icons/hicolor/scalable/apps/}
@@ -23,10 +25,12 @@ cp avda.desktop $DIR_PACKAGE/usr/share/applications/
 cp avda.svg $DIR_PACKAGE/usr/share/icons/hicolor/scalable/apps/
 cp control $DIR_PACKAGE/DEBIAN/
 
-AVDA_SIZE=$(du -ks $DIR_PACKAGE/ | awk '{print $1}')
+SIZE=$(du -ks $DIR_PACKAGE/ | awk '{print $1}')
 
+sed -i "s/CHANGE_NAME/$NAME/g" $DIR_PACKAGE/DEBIAN/control
 sed -i "s/CHANGE_VERSION/$VERSION/g" $DIR_PACKAGE/DEBIAN/control
-sed -i "s/CHANGE_SIZE/$AVDA_SIZE/g" $DIR_PACKAGE/DEBIAN/control
+sed -i "s/CHANGE_SIZE/$SIZE/g" $DIR_PACKAGE/DEBIAN/control
+sed -i "s/CHANGE_ARCH/$ARCH/g" $DIR_PACKAGE/DEBIAN/control
 
 sudo chown -R root:root $DIR_PACKAGE
 
