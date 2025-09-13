@@ -1,3 +1,4 @@
 *.deb
 *.zip
 avda_*_all/
+avda_*_amd64/
